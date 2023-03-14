@@ -1,0 +1,151 @@
+<% layout("layouts/boilerplate.ejs") %>
+
+<div class="container mt-0">
+  <div class="row d-flex justify-content-center">
+    <div class="col-4" style="margin-top: 112px;">
+      <div class="d-flex justify-content-center">
+      <img class="shadow" src="/files/<%= profile.avatar %>" alt=""
+      srcset=""
+      style="border-radius: 50%;width: 240px;height: 240px; border: 10px solid white;">
+    </div>
+    <p class="mt-4 text-center" style="font-weight: 700; font-size: 37px;"><%= profile.username%></p>
+
+    <form class="mt-4 d-flex ms-3 justify-content-center" action="/upload" method="POST" enctype="multipart/form-data">
+      <div class="form-group">
+        <input type="file" name="file" id="input-files" class="form-control border" style="
+        width: 287px;
+    "/>
+      </div>
+      <button type="submit" class="btn btn-primary ms-3">Submit</button>
+    </form>
+    </div>
+
+    <div class="col ms-4 row">
+      <% if(!profile.profileCompleted) { %>
+        <div class="container d-flex justify-content-center" style="width: 50em;">
+          <form action="/profile/<%= currentUser._id %>?_method=PUT" id="animation" method="post"
+            class="needs-validation" novalidate>
+            <h1 class="mt-3 display-5">Your Profile</h1>
+            <div class="card shadow">
+              <div class="card-header">
+                <h3 class="card-title display-6" style="font-size: 2rem;">Personal Info</h3>
+              </div>
+              <div class="row card-body">
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label" for="fname">First Name</label>
+                    <input type="text" class="form-control" id="fname" name="user[firstName]" required />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label" for="lastname">Last Name</label>
+                    <input type="text" class="form-control" id="lastname" name="user[lastName]" required />
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label" for="phoneno">Mobile No:</label>
+                    <input type="text" class="form-control" id="phoneno" name="user[phoneno]" required />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card shadow mt-4">
+              <div class="card-header">
+                <h3 class="card-title display-6" style="font-size: 2rem;">Address Info </h3>
+              </div>
+              <div class="row card-body">
+
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label" for="houseno">House No:</label>
+                    <input type="number" class="form-control" id="houseno" name="user[houseno]" required />
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label" for="street">Street:</label>
+                    <input type="text" class="form-control" id="street" name="user[street]" required />
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label" for="landmark">Landmark:</label>
+                    <input type="text" class="form-control" id="landmark" name="user[landmark]" required />
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="mb-3">
+                    <label class="form-label" for="pincode">Pin Code:</label>
+                    <input type="number" class="form-control" id="pincode" name="user[pincode]" required />
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-6 mb-3">
+                      <label class="form-label" for="city">City :</label>
+                      <input type="text" class="form-control" id="city" name="user[city]" required />
+                    </div>
+                    <div class="col-6 mb-3">
+                      <label class="form-label" for="country">Country :</label>
+                      <input type="text" class="form-control" id="country" name="user[country]" required />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 mb-3">
+              <button class="btn btn-success mt-4">Save</button>
+            </div>
+        </div>
+        </form>
+    </div>
+
+    <% } %>
+
+      <% if(profile.profileCompleted){ %>
+        <div class="container">
+          <div class="card shadow" style="width: 35em;font-size: 20px;">
+            <div class="card-header">
+              <h5 class="card-text" style="font-weight: 700; font-size:25px;">Your info.</h5>
+            </div>
+
+            <ul class="list-group list-group-flush">
+              <li class="card-text list-group-item">Name : <%= profile.name.firstName + " " + profile.name.lastName%>
+              </li>
+              <li class="card-text list-group-item">Contact No : +91 <%= profile.phoneNo%>
+              </li>
+              <li class="card-text list-group-item">Email Id : <%= profile.email%>
+              </li>
+
+              <% for(let address of profile.address) { %>
+                <li class="card-text list-group-item">House No : <%= address.houseNo%>
+                </li>
+                <li class="card-text list-group-item">Street : <%= address.street%>
+                </li>
+                <li class="card-text list-group-item">Landmark : <%= address.landmark%>
+                </li>
+                <li class="card-text list-group-item">City : <%= address.city%>
+                </li>
+                <li class="card-text list-group-item">Country : <%= address.country %>
+                </li>
+                <li class="card-text list-group-item">Pincode : <%= address.pinCode %>
+                </li>
+                <% } %>
+            </ul>
+
+          </div>
+        </div>
+        <% } %>
+  </div>
+  </div>
+</div>
+
+  <script src="/javascripts/clientSideValidation.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
